@@ -1,0 +1,390 @@
+=<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delicious Food Recipes</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Poppins:wght@400;600&family=Pacifico&family=Roboto+Slab&display=swap" rel="stylesheet">
+
+<style>
+body {
+  font-family: 'Quicksand', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+  background-size: 400% 400%;
+  animation: gradientBG 20s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #fff;
+  font-family: 'Pacifico', cursive;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+  font-size: 3rem;
+}
+
+.dashboard-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 10px 15px;
+  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 100;
+}
+
+.dashboard-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.recipe-list { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 20px; 
+  max-width: 1000px; 
+  margin: 0 auto; 
+}
+
+.recipe-item { 
+  display: flex; 
+  background: rgba(255,255,255,0.95); 
+  border-radius: 15px; 
+  overflow: hidden; 
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+  flex-direction: row; 
+  transition: transform 0.3s ease;
+}
+
+.recipe-item.right { flex-direction: row-reverse; }
+.recipe-item:hover { transform: scale(1.02); }
+
+.recipe-item img { 
+  width: 300px; 
+  height: 300px; 
+  object-fit: cover; 
+  border-radius: 12px;
+}
+
+.recipe-content { 
+  padding: 20px; 
+  flex: 1; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
+}
+
+.recipe-content h2 { 
+  margin: 0 0 10px 0; 
+  font-size: 1.8em; 
+  color: rgb(170, 63, 81); 
+  font-family: 'Roboto Slab', serif;
+}
+
+.recipe-content p.summary { 
+  color: #555; 
+  font-size: 1rem;
+}
+
+.recipe-content .meta { 
+  font-size: 0.9em; 
+  color: #333; 
+  margin: 10px 0; 
+  display: flex; 
+  align-items: center; 
+}
+
+.recipe-content .meta img { 
+  width: 30px; 
+  height: 30px; 
+  border-radius: 50%; 
+  object-fit: cover; 
+  margin-right: 8px; 
+}
+
+.recipe-content button { 
+  margin-top: 10px; 
+  padding: 10px 15px; 
+  background: linear-gradient(45deg,#ff9a9e,#fad0c4);
+  color: #fff; 
+  border: none; 
+  cursor: pointer; 
+  border-radius: 8px; 
+  width: 150px; 
+  font-weight: 600;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.recipe-content button:hover { 
+  transform: scale(1.1) rotate(-1deg);
+  box-shadow: 0 10px 25px rgba(255,105,135,0.4);
+}
+
+/* Modal */
+.modal { 
+  display: none; 
+  position: fixed; 
+  top: 0; left: 0; 
+  width: 100%; height: 100%; 
+  background: rgba(0,0,0,0.7); 
+  justify-content: center; 
+  align-items: center; 
+  z-index: 1000; 
+}
+
+.modal-content { 
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  width: 80%;
+  max-width: 700px;
+  max-height: 90%;
+  overflow-y: auto;
+  padding: 25px 30px;
+  position: relative;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+  font-family: 'Quicksand', sans-serif;
+}
+
+.modal-content h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #d94f8b;
+  font-family: 'Pacifico', cursive;
+}
+
+.modal-content h3 {
+  font-size: 1.3rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #ff6fa0;
+}
+
+.modal-content p, .modal-content li {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.modal-content ul {
+  margin-left: 20px;
+}
+
+.modal-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  object-fit: cover;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #333;
+  background: transparent;
+  border: none;
+}
+
+.close-btn:hover {
+  color: #ff6fa0;
+}
+
+.back-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.back-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255,105,135,0.4);
+}
+</style>
+</head>
+<body>
+
+<a href="dashboard.html" class="dashboard-btn">👩🏻‍🍳 Dashboard</a>
+
+<h1>Delicious Food Recipes</h1>
+<div class="recipe-list" id="recipesList"></div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <button class="close-btn" id="closeModal">&times;</button>
+    <h2 id="modalTitle"></h2>
+    
+    <div class="modal-meta" style="display:flex; align-items:center; margin-bottom:15px;">
+      <img id="modalAuthorImg" src="profile.png" alt="Profile" style="width:60px; height:60px; border-radius:50%; object-fit:cover; margin-right:10px;">
+      <div>
+        <span id="modalAuthorName" style="font-weight:600; color:#d94f8b;"></span><br>
+        <span id="modalType" style="font-size:0.9em; color:#ff6fa0;"></span>
+      </div>
+    </div>
+
+    <img id="modalImg" src="" alt="Recipe Image">
+    <div id="modalRecipe"></div>
+    <div style="margin-top:20px;">
+      <a href="recipes.html" class="back-btn">← Back to Recipes</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===============================
+// Sample 20 recipes frontend
+// ===============================
+const allRecipes = [
+  {
+    _id:1,
+    name:"Spaghetti Carbonara",
+    author:"Alice",
+    profile:"https://i.pravatar.cc/60?img=1",
+    type:"Italian",
+    image:"https://www.sipandfeast.com/wp-content/uploads/2019/02/spaghetti-carbonara-recipe-6.jpg",
+    recipe:"<h3>Ingredients:</h3><ul><li>200g spaghetti</li><li>100g pancetta</li><li>2 eggs</li><li>50g Parmesan</li></ul><h3>Steps:</h3><ol><li>Boil spaghetti</li><li>Fry pancetta</li><li>Mix eggs and cheese</li><li>Combine and serve</li></ol>",
+    likes:0
+  },
+  {
+    _id:2,
+    name:"Sushi Platter",
+    author:"Bob",
+    profile:"https://i.pravatar.cc/60?img=2",
+    type:"Japanese",
+    image:"https://th.bing.com/th/id/R.95f07291f6fcf3029007fd58320ea888?rik=b2%2bAUCQO0nGuUA&riu=http%3a%2f%2fshujisushi.com.au%2fimages%2fVegetarian-Sushi-Platter-1467011210JMl7L.jpg&ehk=W%2fFGe5Avlbn8OY3%2bZdaQlrHq3ECplY8kro0hSReDqgM%3d&risl=&pid=ImgRaw&r=0",
+    recipe:"<h3>Ingredients:</h3><ul><li>Sushi rice</li><li>Nori sheets</li><li>Fresh fish</li><li>Soy sauce</li></ul><h3>Steps:</h3><ol><li>Cook sushi rice</li><li>Slice fish</li><li>Roll sushi</li><li>Serve with soy sauce</li></ol>",
+    likes:0
+  },
+  {
+    _id:3,
+    name:"Avocado Toast",
+    author:"Clara",
+    profile:"https://i.pravatar.cc/60?img=3",
+    type:"Breakfast",
+    image:"https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=400&q=80",
+    recipe:"<h3>Ingredients:</h3><ul><li>Bread slices</li><li>Avocado</li><li>Lemon juice</li><li>Salt & pepper</li></ul><h3>Steps:</h3><ol><li>Toast bread</li><li>Mash avocado</li><li>Add lemon juice and seasoning</li><li>Spread on toast</li></ol>",
+    likes:0
+  },
+  // Add 17 more recipes similarly...
+  {
+    _id:4, name:"Chicken Curry", author:"Diana", profile:"https://i.pravatar.cc/60?img=4", type:"Indian", 
+    image:"https://tse4.mm.bing.net/th/id/OIP.c-kHdSfKNCvykb-XlZI5GQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+    recipe:"<h3>Ingredients:</h3><ul><li>Chicken pieces</li><li>Onions, garlic, ginger</li><li>Tomato puree</li><li>Spices</li></ul><h3>Steps:</h3><ol><li>Sauté onions, garlic, ginger</li><li>Add chicken and cook</li><li>Add tomato and spices</li><li>Simmer until done</li></ol>", likes:0
+  },
+  {
+    _id:5, name:"Chocolate Cake", author:"Eve", profile:"https://i.pravatar.cc/60?img=5", type:"Dessert",
+    image:"https://tse1.mm.bing.net/th/id/OIP.5aeXKFP3kZ4CODJnMwEE-AHaIv?w=650&h=767&rs=1&pid=ImgDetMain&o=7&rm=3",
+    recipe:"<h3>Ingredients:</h3><ul><li>Flour</li><li>Sugar</li><li>Cocoa powder</li><li>Eggs</li><li>Butter</li></ul><h3>Steps:</h3><ol><li>Mix dry ingredients</li><li>Add eggs and butter</li><li>Bake at 180°C for 35 min</li></ol>", likes:0
+  },
+  {
+    _id:6, name:"Margherita Pizza", author:"Frank", profile:"https://i.pravatar.cc/60?img=6", type:"Italian",
+    image:"https://cdn.loveandlemons.com/wp-content/uploads/2019/09/margherita-pizza.jpg",
+    recipe:"<h3>Ingredients:</h3><ul><li>Pizza dough</li><li>Tomato sauce</li><li>Mozzarella cheese</li><li>Fresh basil</li></ul><h3>Steps:</h3><ol><li>Preheat oven to 220°C</li><li>Spread tomato sauce on dough</li><li>Add cheese and basil</li><li>Bake for 12-15 min</li></ol>", likes:0
+},
+{
+    _id:7, name:"Beef Tacos", author:"Grace", profile:"https://i.pravatar.cc/60?img=7", type:"Mexican",
+    image:"https://tse2.mm.bing.net/th/id/OIP.MDV2u_oMCAfF6yugvrGtwAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+    recipe:"<h3>Ingredients:</h3><ul><li>Ground beef</li><li>Taco shells</li><li>Lettuce, tomato, cheese</li><li>Sour cream</li></ul><h3>Steps:</h3><ol><li>Cook beef with seasoning</li><li>Fill taco shells</li><li>Add lettuce, tomato, cheese, sour cream</li></ol>", likes:0
+},
+{
+    _id:8, name:"Caesar Salad", author:"Hannah", profile:"https://i.pravatar.cc/60?img=8", type:"Salad",
+    image:"https://www.forkintheroad.co/wp-content/uploads/2023/04/vegan-caesar-salad-126.jpg",
+    recipe:"<h3>Ingredients:</h3><ul><li>Romaine lettuce</li><li>Croutons</li><li>Parmesan cheese</li><li>Caesar dressing</li></ul><h3>Steps:</h3><ol><li>Chop lettuce</li><li>Add croutons and cheese</li><li>Toss with dressing</li></ol>", likes:0
+},
+{
+    _id:9, name:"Pancakes", author:"Ian", profile:"https://i.pravatar.cc/60?img=9", type:"Breakfast",
+    image:"https://tse1.mm.bing.net/th/id/OIP.cKOZXM6mhBpfRNyKwz319AHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
+    recipe:"<h3>Ingredients:</h3><ul><li>Flour</li><li>Milk</li><li>Eggs</li><li>Sugar</li><li>Baking powder</li></ul><h3>Steps:</h3><ol><li>Mix all ingredients</li><li>Pour batter on hot griddle</li><li>Cook until golden</li></ol>", likes:0
+},
+{
+    _id:10, name:"Chocolate Chip Cookies", author:"Jane", profile:"https://i.pravatar.cc/60?img=10", type:"Dessert",
+    image:"https://th.bing.com/th/id/R.c7b47aa609e42d2bd9e157f269b9bca0?rik=E7%2fANHjzzIFu7Q&pid=ImgRaw&r=0",
+    recipe:"<h3>Ingredients:</h3><ul><li>Flour</li><li>Butter</li><li>Sugar</li><li>Chocolate chips</li><li>Eggs</li></ul><h3>Steps:</h3><ol><li>Mix dry ingredients</li><li>Add butter and eggs</li><li>Fold in chocolate chips</li><li>Bake at 180°C for 12 min</li></ol>", likes:0
+},
+{
+    _id:11, name:"Grilled Salmon", author:"Kevin", profile:"https://i.pravatar.cc/60?img=11", type:"Seafood",
+    image:"https://www.cookingclassy.com/wp-content/uploads/2018/05/grilled-salmon-3.jpg",
+    recipe:"<h3>Ingredients:</h3><ul><li>Salmon fillets</li><li>Lemon</li><li>Olive oil</li><li>Herbs</li></ul><h3>Steps:</h3><ol><li>Preheat grill</li><li>Brush salmon with oil and herbs</li><li>Grill for 6-8 min per side</li></ol>", likes:0
+},
+{
+    _id:12, name:"Tomato Soup", author:"Laura", profile:"https://i.pravatar.cc/60?img=12", type:"Soup",
+    image:"https://tse4.mm.bing.net/th/id/OIP.g-waOvbfbP8M5erSaM4AawHaJ4?w=600&h=800&rs=1&pid=ImgDetMain&o=7&rm=3",
+    recipe:"<h3>Ingredients:</h3><ul><li>Tomatoes</li><li>Onion, garlic</li><li>Vegetable broth</li><li>Cream</li></ul><h3>Steps:</h3><ol><li>Sauté onions and garlic</li><li>Add tomatoes and broth</li><li>Simmer 15 min</li><li>Blend and add cream</li></ol>", likes:0
+}
+
+  
+];
+
+function renderRecipes() {
+  const list = document.getElementById('recipesList');
+  list.innerHTML = '';
+  allRecipes.forEach((r,index)=>{
+    const item = document.createElement('div');
+    item.className = 'recipe-item';
+    if(index%2!==0) item.classList.add('right');
+    item.innerHTML = `
+      <img src="${r.image}" alt="${r.name}">
+      <div class="recipe-content">
+        <h2>${r.name}</h2>
+        <p class="summary">${r.recipe.replace(/<[^>]+>/g,'').substring(0,120)}...</p>
+        <div class="meta">
+          <img src="${r.profile}" alt="profile">
+          <span>${r.author}</span>
+          <span style="margin-left:auto;">Type: ${r.type}</span>
+        </div>
+        <button data-id="${r._id}">Read Full</button>
+        <button class="like-btn" data-id="${r._id}">❤️ Like (<span>${r.likes}</span>)</button>
+      </div>
+    `;
+    list.appendChild(item);
+    item.querySelector('button[data-id]').addEventListener('click',()=>openModal(r));
+    item.querySelector('.like-btn').addEventListener('click',(e)=>{
+      r.likes++; 
+      e.target.querySelector('span').innerText = r.likes;
+    });
+  });
+}
+
+function openModal(recipe) {
+  const modal = document.getElementById('modal');
+  modal.style.display='flex';
+  document.getElementById('modalImg').src=recipe.image;
+  document.getElementById('modalTitle').innerText=recipe.name;
+  document.getElementById('modalRecipe').innerHTML=recipe.recipe;
+  document.getElementById('modalAuthorName').innerText=recipe.author;
+  document.getElementById('modalAuthorImg').src=recipe.profile;
+  document.getElementById('modalType').innerText=`Type: ${recipe.type}`;
+}
+
+document.getElementById('closeModal').addEventListener('click',()=>{document.getElementById('modal').style.display='none';});
+
+renderRecipes();
+</script>
+</body>
+</html>

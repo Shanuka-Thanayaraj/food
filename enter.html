@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - Recipe Vlog</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* Reset */
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+
+  body, html { height:100%; width:100%; overflow:hidden; }
+
+  /* Gradient background */
+  body {
+    background: linear-gradient(135deg, #FFB6C1 0%, #FF6A88 50%, #FF99AC 100%);
+    position: relative;
+  }
+
+  /* Page wrapper divided into three sections */
+  .page-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .left-section, .center-section, .right-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Arrow on the left edge */
+  .left-section {
+    justify-content: flex-start;
+    padding-left: 10px;
+  }
+  .arrow-left {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  .arrow-left:hover { transform: scale(1.1); }
+
+  /* Center container */
+  .center-section {
+    justify-content: center;
+  }
+  .container {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(15px);
+    padding: 60px 40px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(255,182,193,0.3), 0 10px 20px rgba(255,105,180,0.2);
+    text-align:center;
+    color:#fff;
+    max-width:400px;
+    width:90%;
+    animation: fadeIn 1.5s ease forwards, floatCard 3s ease-in-out infinite alternate;
+  }
+  .container h2 {
+    font-size:2rem;
+    margin-bottom:30px;
+    text-shadow: 0 0 10px #FFB6C1, 0 0 15px #FF6A88;
+  }
+  .container button {
+    padding: 15px 45px;
+    margin: 10px;
+    font-size:1rem;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+    font-weight:600;
+    transition: all 0.3s ease;
+    color:#fff;
+    box-shadow: 0 4px 12px rgba(255,105,180,0.3);
+    background: linear-gradient(45deg, #FF6A88, #FF99AC);
+    position: relative;
+    overflow: hidden;
+  }
+  .container button::after {
+    content:'';
+    position:absolute;
+    top:0; left:-100%;
+    width:100%; height:100%;
+    background: rgba(255,255,255,0.2);
+    transform: skewX(-20deg);
+    transition: all 0.5s ease;
+  }
+  .container button:hover::after { left:100%; }
+  .container button:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(255,105,180,0.5); }
+
+  /* Floating shapes */
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.15;
+    filter: blur(80px);
+    z-index:1;
+  }
+  .shape1 { width: 300px; height: 300px; background: #FFB6C1; top:10%; left:5%; animation: float1 8s ease-in-out infinite alternate;}
+  .shape2 { width: 400px; height: 400px; background: #FF6A88; bottom:15%; right:10%; animation: float2 10s ease-in-out infinite alternate;}
+  .shape3 { width: 200px; height: 200px; background: #FF99AC; top:30%; right:20%; animation: float3 12s ease-in-out infinite alternate;}
+  @keyframes float1 { 0%{transform:translateY(0);} 100%{transform:translateY(-20px) rotate(15deg);} }
+  @keyframes float2 { 0%{transform:translateY(0);} 100%{transform:translateY(-25px) rotate(-10deg);} }
+  @keyframes float3 { 0%{transform:translateY(0);} 100%{transform:translateY(-15px) rotate(20deg);} }
+
+  /* Fade and float animations */
+  @keyframes fadeIn { 0%{opacity:0; transform:translateY(20px);} 100%{opacity:1; transform:translateY(0);} }
+  @keyframes floatCard { 0%{transform:translateY(0);} 100%{transform:translateY(-10px);} }
+
+  /* Chef image on right edge */
+  .right-section {
+    justify-content: flex-end;
+    padding-right: 10px;
+  }
+  .chef-img {
+    position: absolute;
+    top: 60%;
+    left: -130px;
+    width: 220px;
+    height: auto;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    filter: none;
+    opacity: 1;
+    z-index: 0;
+    animation: floatChef 4s ease-in-out infinite alternate;
+  }
+  @keyframes floatChef { 0%{transform: translate(-50%, -50%) rotate(-15deg);} 100%{transform: translate(-50%, -60%) rotate(-10deg);} }
+
+</style>
+</head>
+<body>
+
+  <!-- Floating shapes -->
+  <div class="shape shape1"></div>
+  <div class="shape shape2"></div>
+  <div class="shape shape3"></div>
+
+  <!-- Page wrapper -->
+  <div class="page-wrapper">
+    <!-- Left arrow -->
+    <div class="left-section">
+      <img src="arrow3.png" class="arrow-left" alt="Back Arrow" onclick="window.location.href='index.html'">
+    </div>
+
+    <!-- Center container -->
+    <div class="center-section">
+      <div class="container">
+        <h2>Home - Recipe Vlog</h2>
+        <button onclick="window.location.href='login.html'">Login</button>
+        <button onclick="window.location.href='register.html'">Register</button>
+      </div>
+    </div>
+
+    <!-- Right chef image -->
+    <div class="right-section">
+      <img src="chef2.png" class="chef-img" alt="Chef">
+    </div>
+  </div>
+
+</body>
+</html>

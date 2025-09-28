@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Chef - Discover More</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+  body, html { height:100%; overflow-x:hidden; overflow-y:auto; }
+
+  body { 
+    background: linear-gradient(270deg, #FF6A88, #FF99AC, #FF9A8B, #FFCC99); 
+    background-size: 800% 800%; 
+    animation: gradientBG 12s ease infinite; 
+    display:flex; justify-content:center; align-items:flex-start; flex-direction:column; 
+    position: relative; min-height: 100vh;
+  }
+  @keyframes gradientBG { 0% {background-position:0% 50%;} 50% {background-position:100% 50%;} 100% {background-position:0% 50%;} }
+
+  .content-card { 
+    background: rgba(255,255,255,0.15); 
+    backdrop-filter: blur(12px); 
+    padding: 40px 30px; 
+    border-radius: 30px; 
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4); 
+    text-align:center; 
+    color:#fff; 
+    max-width:700px; 
+    margin: 30px auto; 
+    animation: floatCard 2.5s ease-in-out infinite alternate; 
+    transform: perspective(1000px) rotateX(2deg) rotateY(2deg); 
+    transition: transform 0.3s ease; 
+    z-index: 2;
+  }
+  .content-card:hover { transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(-10px); }
+  @keyframes floatCard { 0% {transform: perspective(1000px) rotateX(2deg) rotateY(2deg) translateY(0);} 100% {transform: perspective(1000px) rotateX(2deg) rotateY(2deg) translateY(-10px);} }
+
+  .content-card h1 { font-size:2.8rem; font-weight:700; margin-bottom:15px; animation: fadeIn 1.5s ease forwards; }
+  .content-card p { font-size:1.1rem; opacity:0.9; animation: fadeIn 2s ease forwards; line-height: 1.5; margin-bottom: 20px; }
+  @keyframes fadeIn { 0% {opacity:0; transform:translateY(15px);} 100% {opacity:1; transform:translateY(0);} }
+
+  .cta-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background: linear-gradient(45deg, #FF6A88, #FFCC99);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255,107,136,0.4);
+  }
+  .cta-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(255,107,136,0.6);
+  }
+
+  /* Floating circles with glow */
+  .circle { 
+    position: absolute; 
+    border-radius: 50%; 
+    background: rgba(255,255,255,0.3); 
+    animation: float 10s linear infinite; 
+    z-index:1;
+    bottom: -100px; 
+    box-shadow: 0 0 10px rgba(255,255,255,0.5);
+  }
+  @keyframes float { 
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity:0; }
+    10% { opacity: 0.7; }
+    100% { transform: translateY(-120vh) translateX(150px) rotate(360deg); opacity:0; }
+  }
+  .circle:nth-child(1){ width:90px; height:90px; left:10%; animation-duration:10s; animation-delay:0s;}
+  .circle:nth-child(2){ width:50px; height:50px; left:60%; animation-duration:8s; animation-delay:1s;}
+  .circle:nth-child(3){ width:120px; height:120px; left:45%; animation-duration:15s; animation-delay:2s;}
+  .circle:nth-child(4){ width:70px; height:70px; left:20%; animation-duration:13s; animation-delay:0.5s;}
+  .circle:nth-child(5){ width:100px; height:100px; left:75%; animation-duration:17s; animation-delay:1.5s;}
+  .circle:nth-child(6){ width:60px; height:60px; left:35%; animation-duration:12s; animation-delay:0.8s;}
+  .circle:nth-child(7){ width:80px; height:80px; left:15%; animation-duration:14s; animation-delay:2.2s;}
+  .circle:nth-child(8){ width:40px; height:40px; left:50%; animation-duration:11s; animation-delay:1.1s;}
+  .circle:nth-child(9){ width:110px; height:110px; left:70%; animation-duration:16s; animation-delay:0.7s;}
+  .circle:nth-child(10){ width:55px; height:55px; left:25%; animation-duration:9s; animation-delay:1.3s;}
+
+  @media (max-width: 600px) {
+    .content-card { padding: 30px 15px; max-width: 90%; margin: 20px auto; }
+    .content-card h1 { font-size: 2rem; }
+    .content-card p { font-size: 0.95rem; }
+    .cta-btn { font-size: 0.9rem; padding: 8px 20px; }
+  }
+
+  /* Team Section Styles */
+  .team-section {
+    max-width: 900px;
+    margin: 50px auto;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    z-index: 2;
+  }
+
+  .team-section h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    animation: fadeIn 1.5s ease forwards;
+  }
+
+  .team-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .team-member {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    opacity: 0;
+    animation: fadeInUp 1.5s ease forwards;
+  }
+
+  .team-member.right {
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .team-member img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .team-member img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255,255,255,0.6);
+  }
+
+  .team-member p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  /* Animation for team members */
+  @keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px);}
+    100% { opacity: 1; transform: translateY(0);}
+  }
+
+  /* Responsive Team Section */
+  @media (max-width: 600px) {
+    .team-member {
+      flex-direction: column;
+      justify-content: center !important;
+      text-align: center !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="content-card">
+    <h1>Master Chef Awaits!</h1>
+    <p>Join a vibrant community of food lovers! Discover mouthwatering recipes, share your culinary creations, and master new cooking skills—no login needed to explore!</p>
+    <a href="enter.html" class="cta-btn">Dive In Now</a>
+  </div>
+
+  <!-- Team Section -->
+  <div class="team-section">
+    <h2>Meet the Team</h2>
+    <div class="team-container">
+      <div class="team-member left">
+        <img src="team1.jpg" alt="Alice">
+        <p>Alice</p>
+      </div>
+      <div class="team-member right">
+        <img src="team2.jpg" alt="Bob">
+        <p>Bob</p>
+      </div>
+      <div class="team-member left">
+        <img src="team3.jpg" alt="Charlie">
+        <p>Charlie</p>
+      </div>
+      <div class="team-member right">
+        <img src="team4.jpg" alt="Diana">
+        <p>Diana</p>
+      </div>
+      <div class="team-member left">
+        <img src="team5.jpg" alt="Eve">
+        <p>Eve</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating circles / bubbles -->
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+
+</body>
+</html>

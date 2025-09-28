@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Recipe - Geometric UI</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+body, html { height: 100%; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+
+/* Animated geometric background */
+canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+
+/* Dashboard button */
+.dashboard-btn {
+  position: fixed; top: 20px; left: 20px;
+  padding: 10px 15px;
+  background: linear-gradient(45deg, #FF6FA0, #FF8FCF);
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 100;
+}
+.dashboard-btn:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+
+/* Container */
+.container {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  padding: 50px 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+}
+h1 { color: #333; font-size: 2rem; margin-bottom: 30px; }
+
+/* Input fields (visual only) */
+input {
+  width: 100%; border-radius: 10px; border: 1px solid #ddd;
+  outline: none; padding: 12px 15px; font-size: 1rem; margin-bottom: 20px;
+  transition: all 0.3s;
+  pointer-events: none; /* makes input non-editable */
+  background: #f9f9f9;
+}
+
+/* Button styling */
+button {
+  background: linear-gradient(45deg, #FF6FA0, #FF8FCF);
+  color: #fff; font-weight: 600; cursor: pointer; font-size: 1.1rem; border: none;
+  padding: 12px 20px; border-radius: 10px; transition: all 0.3s;
+}
+button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255,111,160,0.3); }
+
+/* Notification popup */
+.notify {
+  position: fixed; top: 20px; right: -350px;
+  background: #FF8FCF; backdrop-filter: blur(12px);
+  color: #fff; padding: 15px 25px; border-radius: 12px; font-size: 1rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  transition: right 0.5s ease, opacity 0.5s ease;
+  z-index: 2000; min-width: 250px; text-align: center;
+  border-left: 6px solid #FF6FA0;
+}
+.notify.show { right: 20px; opacity: 1; }
+</style>
+</head>
+<body>
+
+<a href="dashboard.html" class="dashboard-btn">👩🏻‍🍳 Dashboard</a>
+<canvas id="bgCanvas"></canvas>
+
+<div id="notify" class="notify"></div>
+
+<div class="container">
+  <h1>🍴 Add Your Recipe</h1>
+  
+  <!-- Visual form fields -->
+  <input type="text" placeholder="Your Name">
+  <input type="text" placeholder="Recipe Name">
+  <input type="text" placeholder="Recipe Type">
+  <input type="file" placeholder="Image">
+  
+  <button id="addRecipeBtn">Add Recipe</button>
+</div>
+
+<script>
+// ================================
+// Geometric Background Animation
+// ================================
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+
+const triangles = [];
+const TRIANGLE_COUNT = 30;
+
+class Triangle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * width;
+    this.y = Math.random() * height;
+    this.size = 50 + Math.random() * 100;
+    this.speedX = -0.2 + Math.random() * 0.4;
+    this.speedY = -0.2 + Math.random() * 0.4;
+    this.color = `rgba(${100+Math.random()*155}, ${50+Math.random()*205}, ${150+Math.random()*105}, 0.2)`;
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(this.x + this.size/2, this.y + this.size);
+    ctx.lineTo(this.x - this.size/2, this.y + this.size);
+    ctx.closePath();
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    this.update();
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < -this.size || this.x > width + this.size || this.y < -this.size || this.y > height + this.size) {
+      this.reset();
+      this.y = height + this.size;
+    }
+  }
+}
+for (let i = 0; i < TRIANGLE_COUNT; i++) triangles.push(new Triangle());
+function animate() { ctx.clearRect(0,0,width,height); triangles.forEach(tri => tri.draw()); requestAnimationFrame(animate); }
+animate();
+window.addEventListener('resize', () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; });
+
+// ================================
+// Notification Function
+// ================================
+function showNotify(message) {
+  const notify = document.getElementById("notify");
+  notify.textContent = message;
+  notify.classList.add("show");
+  setTimeout(() => { notify.classList.remove("show"); }, 2500);
+}
+
+// ================================
+// Add Recipe Button
+// ================================
+document.getElementById('addRecipeBtn').addEventListener('click', () => {
+  showNotify('Recipe added successfully! (Frontend-only)');
+  // Optionally redirect to another page:
+  // window.location.href = "dashboard.html";
+});
+</script>
+</body>
+</html>

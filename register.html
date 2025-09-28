@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - Recipe Vlog</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+body,html{height:100%;width:100%;display:flex;justify-content:center;align-items:center;position:relative;overflow:hidden;}
+body::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80');background-size:cover;background-position:center;filter:blur(4px);z-index:0;}
+.container{position:relative;z-index:1;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:25px;padding:50px 40px;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 40px rgba(255,223,150,0.4);color:#fff;animation:fadeIn 1.5s ease forwards;}
+@keyframes fadeIn{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
+.container h2{font-size:2rem;margin-bottom:30px;text-shadow:0 0 8px #fb841b4d,0 0 12px #fb841b;}
+.container input{
+  width: 80%; padding:12px 15px; margin:10px 0; border:none; border-radius:12px;
+  font-size:1rem; outline:none; background:rgba(215,192,174,0.755); color:#fff;
+}
+.container input::placeholder{ color: rgba(255,255,255,0.7); }
+.container button{
+  padding:15px 45px;margin:10px 0;font-size:1rem;border:none;border-radius:15px;
+  cursor:pointer;font-weight:600;color:#fff;background:linear-gradient(45deg,#fb841b4d,#fb841b);
+  transition:all 0.3s ease;
+}
+.container button:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(255,223,150,0.5);}
+.hidden{ display:none; }
+.notify{position:fixed;top:20px;right:-350px;background:rgba(255,165,0,0.15);backdrop-filter:blur(12px);color:#fff;padding:15px 25px;border-radius:12px;font-size:1rem;box-shadow:0 8px 25px rgba(0,0,0,0.3);transition:right 0.5s ease,opacity 0.5s ease;z-index:2000;min-width:250px;text-align:center;border-left:6px solid orange;}
+.notify.show{right:20px;opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Register</h2>
+
+  <input type="text" placeholder="Full Name">
+  <input type="email" placeholder="Email">
+  <input type="password" placeholder="Password">
+
+  <button id="sendOtpBtn">Send OTP</button>
+  <button id="verifyOtpBtn" class="hidden">Verify OTP</button>
+  <button id="registerBtn" class="hidden">Complete Registration</button>
+</div>
+
+<div id="notify" class="notify"></div>
+
+<script>
+function showNotify(message,type="success",redirect=false){
+  const notify=document.getElementById("notify");
+  notify.textContent=message;
+  notify.className="notify show "+type;
+  setTimeout(()=>{notify.classList.remove("show");},2500);
+  if(redirect){setTimeout(()=>window.location.href="login.html",1500);}
+}
+
+const sendOtpBtn=document.getElementById('sendOtpBtn');
+const verifyOtpBtn=document.getElementById('verifyOtpBtn');
+const registerBtn=document.getElementById('registerBtn');
+
+// Step 1: Send OTP
+sendOtpBtn.addEventListener('click',()=>{
+  showNotify('OTP sent successfully!','success');
+  sendOtpBtn.classList.add('hidden');
+  verifyOtpBtn.classList.remove('hidden');
+});
+
+// Step 2: Verify OTP
+verifyOtpBtn.addEventListener('click',()=>{
+  showNotify('OTP verified successfully!','success');
+  verifyOtpBtn.classList.add('hidden');
+  registerBtn.classList.remove('hidden');
+});
+
+// Step 3: Complete Registration
+registerBtn.addEventListener('click',()=>{
+  showNotify('Registration completed! Redirecting to login...','success',true);
+});
+</script>
+
+</body>
+</html>

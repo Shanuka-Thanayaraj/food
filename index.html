@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Chef</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+body, html { height:100%; overflow:hidden; }
+
+/* Background Gradient & Animation */
+body { 
+  background: linear-gradient(270deg, #FF9A8B, #FF6A88, #FF99AC); 
+  background-size: 600% 600%; 
+  animation: gradientBG 15s ease infinite; 
+  display:flex; justify-content:center; align-items:center; flex-direction:column; 
+  position: relative;
+}
+@keyframes gradientBG { 
+  0% {background-position:0% 50%;} 
+  50%{background-position:100% 50%;} 
+  100%{background-position:0% 50%;} 
+}
+
+/* Welcome card */
+.welcome-card { 
+  background: rgba(255,255,255,0.15); 
+  backdrop-filter: blur(10px); 
+  padding: 60px 40px; 
+  border-radius: 25px; 
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
+  text-align:center; 
+  color:#fff; 
+  position:relative; 
+  overflow:hidden; 
+  max-width:700px; 
+  animation: floatCard 3s ease-in-out infinite alternate; 
+  z-index:2;
+}
+@keyframes floatCard { 0%{transform:translateY(0);} 100%{transform:translateY(-15px);} }
+
+.welcome-card img {
+  width: 220px;
+  height: 200px;
+  margin-bottom: 20px;
+}
+
+.welcome-card h1 { 
+  font-size:2.8rem; 
+  margin-bottom:15px; 
+  animation: fadeIn 2s ease forwards; 
+}
+.welcome-card p { 
+  font-size:1.2rem; 
+  opacity:0.9; 
+  animation: fadeIn 3s ease forwards; 
+  margin-bottom: 25px; 
+}
+@keyframes fadeIn { 0%{opacity:0; transform:translateY(20px);} 100%{opacity:1; transform:translateY(0);} }
+
+/* Buttons */
+.button-group {
+  display:flex;
+  justify-content:center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.button-group button {
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  border:none;
+  border-radius: 25px;
+  cursor:pointer;
+  background: linear-gradient(45deg, #FF6A88, #FF99AC);
+  color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.button-group button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(255,105,180,0.5);
+}
+
+/* Floating circles / bubbles */
+.circle { 
+  position: absolute; 
+  border-radius: 50%; 
+  background: rgba(255,255,255,0.2); 
+  animation: float 12s linear infinite; 
+  z-index:1;
+  bottom: -100px; 
+}
+@keyframes float { 
+  0% { transform: translateY(0) translateX(0) rotate(0deg); opacity:0; }
+  10% { opacity: 0.6; }
+  100% { transform: translateY(-120vh) translateX(200px) rotate(360deg); opacity:0; }
+}
+
+/* Floating circle sizes & positions */
+.circle:nth-child(1){ width:100px; height:100px; left:15%; animation-duration:12s; animation-delay:0s;}
+.circle:nth-child(2){ width:60px; height:60px; left:65%; animation-duration:10s; animation-delay:2s;}
+.circle:nth-child(3){ width:150px; height:150px; left:50%; animation-duration:18s; animation-delay:1s;}
+.circle:nth-child(4){ width:80px; height:80px; left:25%; animation-duration:16s; animation-delay:3s;}
+.circle:nth-child(5){ width:120px; height:120px; left:80%; animation-duration:20s; animation-delay:0.5s;}
+.circle:nth-child(6){ width:50px; height:50px; left:40%; animation-duration:14s; animation-delay:1.5s;}
+.circle:nth-child(7){ width:70px; height:70px; left:10%; animation-duration:15s; animation-delay:0.8s;}
+.circle:nth-child(8){ width:90px; height:90px; left:75%; animation-duration:17s; animation-delay:2.2s;}
+.circle:nth-child(9){ width:40px; height:40px; left:55%; animation-duration:13s; animation-delay:1.1s;}
+.circle:nth-child(10){ width:60px; height:60px; left:30%; animation-duration:12s; animation-delay:0.7s;}
+
+.swipe-hint { margin-top:30px; font-size:1.1rem; color:#fff; opacity:0.8; animation: bounce 2s infinite; cursor:pointer; z-index:2; }
+@keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(10px);} }
+
+@media (max-width: 600px) {
+  .welcome-card { padding: 40px 20px; max-width: 90%; }
+  .welcome-card h1 { font-size: 2rem; }
+  .welcome-card p { font-size: 1rem; }
+  .button-group button { font-size: 0.9rem; padding: 10px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="welcome-card">
+  <img src="welcome.png" alt="Welcome Chef">
+  <h1>Welcome to Master Chef</h1>
+  <p>Discover amazing recipes, cooking tips, and culinary secrets! Browse our collection or log in to share your own recipes.</p>
+  
+  <div class="button-group">
+
+    <button onclick="window.location.href='learnmore.html'">Learn More</button>
+  </div>
+</div>
+
+<!-- Floating circles / bubbles -->
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+<div class="circle"></div>
+
+<div class="swipe-hint" onclick="window.location.href='recipes copy.html'">Scroll down to explore recipes ↓</div>
+
+</body>
+</html>
